@@ -6,7 +6,7 @@ passwd = 'year93926'
 age = 23
 
 username = input("username:")
-password = input("password")
+password = input("password:")
 
 # if user == username:
 #     print("username is correct...")
