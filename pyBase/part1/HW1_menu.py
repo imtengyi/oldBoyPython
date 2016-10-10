@@ -11,12 +11,12 @@ while True:
         counter += 1
     userchoose = input("Please input your choose!!")
     if userchoose == '1':
-        counter=0
+        counter = 0
         for secondChoose in secondMenu['biubiubiu']:
-            print(counter,secondChoose)
+            print(counter, secondChoose)
             counter += 1
-        userchoose=input("Please input your choose!!")
-        #.....
+        userchoose = input("Please input your choose!!")
+        # .....
         pass
     elif userchoose == '2':
         pass
