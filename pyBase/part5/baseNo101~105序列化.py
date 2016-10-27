@@ -27,7 +27,7 @@ ret = json.loads(li)
 
 # dump和load操作 写入文件 从文件读
 json.dump(li, open('db', 'w'))
-li = json.load(open('db', 'w'))
+li = json.load(open('db', 'r'))
 
 # pickle 只能python用的序列化
 import pickle
