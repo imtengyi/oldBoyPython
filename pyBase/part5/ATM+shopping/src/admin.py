@@ -3,6 +3,7 @@
 import os
 import json
 import sys
+import datetime
 
 LIBDIC = os.path.join(os.path.dirname(os.getcwd()), 'lib')
 sys.path.append(LIBDIC)
@@ -10,6 +11,7 @@ import cmdColor
 
 LOGGIN_USER = {'logginFlag': False, 'userName': ''}
 ADMINDB = os.path.join(os.path.join(os.path.dirname(os.getcwd()), 'db'), 'admin')
+USERDB = os.path.join(os.path.join(os.path.dirname(os.getcwd()), 'db'), 'user')
 WELCOMESTRING = '{hello:*^40s}'.format(hello='后台管理')
 
 
@@ -41,18 +43,101 @@ def getAdminInfo(name):
         return adminDic
 
 
+def creatUser(card, username, password, credit):
+    """
+
+    :param username: 用户名
+    :param password: 用户密码
+    :param credit: 用户信用卡额度
+    :return: True:成功
+    :return: False:失败
+    """
+    try:
+        userdir = os.path.join(USERDB, card)
+        os.mkdir(userdir)
+        base_info = {
+            'username': username,
+            'card': card,
+            'password': password,
+            'credit': credit,  # 行用卡额度
+            'balance': credit,  # 本月可用额度
+            'saving': 0,  # 储蓄金额
+            'enroll_date': datetime.date.today().strftime("%Y-%m-%d"),
+            'expire_date': (datetime.date.today() + datetime.timedelta(days=3650)).strftime("%Y-%m-%d"),
+            'status': 0,  # 0=normal 1=locked 2=disable
+            'debt': []  # 欠款记录
+        }
+        json.dump(base_info, open(os.path.join(userdir, 'user_info'), 'w'))
+        return True
+    except:
+        return False
+
+
 def run():
     """
     运行atm管理后台程序的入口函数 主流程
     :return:
     """
-
-    pass
+    while True:
+        cmdColor.print_header(WELCOMESTRING)
+        if not LOGGIN_USER['logginFlag']:
+            adminname = input("Admin name:")
+            password = input("password:")
+            if os.path.exists(os.path.join(ADMINDB, adminname)):
+                admin_dic = getAdminInfo('year')
+                if admin_dic:
+                    if adminname == admin_dic['adminName'] and password == admin_dic['password']:
+                        LOGGIN_USER['logginFlag'] = True
+                        LOGGIN_USER['userName'] = adminname
+                        cmdColor.print_okgreen('Welcome %s' % (adminname))
+                        continue
+                    else:
+                        cmdColor.print_fail('用户名或密码错误请重新尝试!!')
+                        continue
+                else:
+                    cmdColor.print_fail('用户名或密码错误请重新尝试!!')
+                    continue
+            else:
+                cmdColor.print_fail('用户名或密码错误请重新尝试!!')
+                continue
+        else:
+            choose_str = """
+            1.创建用户
+            2.删除用户
+            3.修改用户信息
+            4.注销用户
+            0.退出
+            """
+            print(choose_str)
+            choose = input('>>')
+            if choose == '1':
+                card = input('创建的卡号:')
+                if not os.path.exists(os.path.join(USERDB, card)):
+                    username = input('创建的用户名:')
+                    pwd = input('创建用户密码:')
+                    credit = input('创建用户额度')
+                    if creatUser(card, username, pwd, credit):
+                        cmdColor.print_okgreen('创建成功!!')
+                    else:
+                        cmdColor.print_fail('创建失败!!')
+                else:
+                    cmdColor.print_fail('卡号已经存在')
+            elif choose == '0':
+                break
+            else:
+                continue
 
 
 if __name__ == '__main__':
-    print(ADMINDB)
-    print(cmdColor.Logger.HEADER + WELCOMESTRING + cmdColor.Logger.ENDC)
+    # print(ADMINDB)
+    cmdColor.print_header(WELCOMESTRING)
+    cmdColor.print_okblue(WELCOMESTRING)
+    cmdColor.print_okgreen(WELCOMESTRING)
+    cmdColor.print_warning(WELCOMESTRING)
+    cmdColor.print_fail(WELCOMESTRING)
+
+    run()
+    # print(cmdColor.Logger.HEADER + WELCOMESTRING + cmdColor.Logger.ENDC)
     # createAdmin()
     # adminDic = getAdminInfo('year')
     # if adminDic:
