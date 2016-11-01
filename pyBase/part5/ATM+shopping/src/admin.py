@@ -154,7 +154,7 @@ def run():
             elif choose == '3':
                 print('{hello:-^40s}'.format(hello='目前只可更改账户可用额度!'))
                 userneedtochange = input('你需要修改哪个用户:')
-                if not os.path.exists(os.path.join(USERDB, card)):
+                if not os.path.exists(os.path.join(USERDB, userneedtochange)):
                     print('根本没有这个用户!!')
                 else:
                     changewhat = int(input('输入需要修改的额度'))
