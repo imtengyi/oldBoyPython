@@ -4,6 +4,7 @@ import os
 import json
 import sys
 import datetime
+import shutil
 
 LIBDIC = os.path.join(os.path.dirname(os.getcwd()), 'lib')
 sys.path.append(LIBDIC)
@@ -73,6 +74,23 @@ def creatUser(card, username, password, credit):
         return False
 
 
+def changeUserInfo(witchuser, witchinfo, changewhat):
+    """
+
+    :param witchinfo:需要修改哪个信息
+    :param changewhat: 需要修改成什么
+    :return:
+    """
+    try:
+        userinfodir = os.path.join(USERDB, witchuser)
+        userDic = json.load(open(os.path.join(userinfodir, 'user_info'), 'r'))
+        userDic[witchinfo] = changewhat
+        json.dump(userDic, open(os.path.join(userinfodir, 'user_info'), 'w'))
+        cmdColor.print_okgreen('修改成功!!')
+    except:
+        cmdColor.print_fail('修改失败!!')
+
+
 def run():
     """
     运行atm管理后台程序的入口函数 主流程
@@ -122,6 +140,29 @@ def run():
                         cmdColor.print_fail('创建失败!!')
                 else:
                     cmdColor.print_fail('卡号已经存在')
+            elif choose == '2':
+                card = input('您需要删除的账号名:')
+                if not os.path.exists(os.path.join(USERDB, card)):
+                    print('根本没有这个用户!!')
+                else:
+                    try:
+                        shutil.rmtree(os.path.join(USERDB, card))
+                        continue
+                    except:
+                        print('删除失败!!')
+                        continue
+            elif choose == '3':
+                print('{hello:-^40s}'.format(hello='目前只可更改账户可用额度!'))
+                userneedtochange = input('你需要修改哪个用户:')
+                if not os.path.exists(os.path.join(USERDB, card)):
+                    print('根本没有这个用户!!')
+                else:
+                    changewhat = int(input('输入需要修改的额度'))
+                    changeUserInfo(userneedtochange, 'credit', changewhat)
+
+            elif choose == '4':
+                LOGGIN_USER['logginFlag'] = False
+                continue
             elif choose == '0':
                 break
             else:
