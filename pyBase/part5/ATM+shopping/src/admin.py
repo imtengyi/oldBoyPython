@@ -102,7 +102,7 @@ def run():
             adminname = input("Admin name:")
             password = input("password:")
             if os.path.exists(os.path.join(ADMINDB, adminname)):
-                admin_dic = getAdminInfo('year')
+                admin_dic = getAdminInfo(adminname)
                 if admin_dic:
                     if adminname == admin_dic['adminName'] and password == admin_dic['password']:
                         LOGGIN_USER['logginFlag'] = True

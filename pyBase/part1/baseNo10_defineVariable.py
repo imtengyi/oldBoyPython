@@ -3,9 +3,9 @@
 name = "周易"
 age = 23
 province = 'Anhui'
-company = 'Jabil'
+company = 'Hehehe'
 
 newName = name
-name = 'Jianyun'
+name = 'hehehe'
 
 print(name, newName, age, province, company)
