@@ -66,7 +66,7 @@ def creatUser(card, username, password, credit):
             'enroll_date': datetime.date.today().strftime("%Y-%m-%d"),
             'expire_date': (datetime.date.today() + datetime.timedelta(days=3650)).strftime("%Y-%m-%d"),
             'status': 0,  # 0=normal 1=locked 2=disable
-            'debt': []  # 欠款记录
+            'debt': {}  # 欠款记录
         }
         json.dump(base_info, open(os.path.join(userdir, 'user_info'), 'w'))
         return True

@@ -49,6 +49,30 @@ def changeUserInfo(witchuser, witchinfo, changewhat):
         cmdColor.print_fail('修改失败!!')
 
 
+def ca_debt(money):
+    money = money + money * 0.05
+    return money
+
+
+def add_months(dt, months):
+    month = dt.month - 1 + months
+    year = dt.year + month // 12
+    month = month % 12 + 1
+    day = 5
+    return dt.replace(year=year, month=month, day=day)
+
+
+def getDebt(debtTime, money):
+    deadtime = add_months(datetime.datetime.strptime(debtTime, "%Y-%m"), 1)
+    days = datetime.datetime.now() - deadtime
+    if days.days > 0:
+        for d in range(days.days):
+            money = ca_debt(money)
+        return money
+    else:
+        return money
+
+
 def run():
     """
     运行ATM程序的入口
@@ -128,9 +152,13 @@ def run():
                 else:
                     cmdColor.print_fail('输入错误!!!')
             elif choose == '4':
+                # 计算欠费的函数已经写好剩下的懒得写了
                 pass
             elif choose == '5':
-                pass
+                with open(
+                        os.path.join(os.path.join(USERDB, LOGGIN_USER['userName']), 'shoppingLog'),
+                        'r') as flog:
+                    print(flog.read())
             elif choose == '6':
                 LOGGIN_USER['logginFlag'] = False
                 continue
