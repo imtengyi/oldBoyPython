@@ -7,7 +7,7 @@ import re
 # findall 将匹配的所有字符串以列表的方式返回 第一个参数是规则 第二个参数是被寻找的对象
 re.findall('year', 'asdfasdfsdferyearasdfeg')
 # 字符匹配 分为普通字符和元字符
-# 元字符: . ^ $ * + ? {} [] | () \ 每个都有自己的特殊意义
+# 元字符: . ^ $ * + ? {} [] | () \ 每个都有自己的特殊意义 贪婪和非贪婪 默认贪婪 后面加?为非贪婪 如果前后均有限定条件则非贪婪失效
 # .除换行符以外的任何一个字符
 re.findall('y.ar', 'asdfasdfsdferyearasdfeg')
 re.findall('y.ar', 'asdfasdfsdfery\narasdfeg')
