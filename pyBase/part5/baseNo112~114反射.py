@@ -6,4 +6,4 @@
 # getattr(模块名,成员名) 取得模块中的成员
 # setattr(模块名,) 设置模块中的成员 在内存中操作
 # delattr() 删除模块中的成员 在内存中操作
-# 利用反射动态的导入模块 obj=__import__("time") obj.  obj=__import__("lib.cccc",fromlist=True)
+# 利用反射动态的导入模块 obj=__import__("time") obj.
